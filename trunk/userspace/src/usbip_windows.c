@@ -897,6 +897,7 @@ int attach_device(char * host, char * busid)
 	}
 	if(query_interface0(sockfd, busid, &uinf)){
 		err("cannot find device");
+		closesocket(sockfd);
 		return 0;
 	}
 	closesocket(sockfd);
@@ -908,6 +909,7 @@ int attach_device(char * host, char * busid)
 	rhport = query_import_device(sockfd, busid, &uinf, &devfd);
 	if (rhport < 0) {
 		err("query");
+		closesocket(sockfd);
 		return 0;
 	}
 	info("new usb device attached to usbvbus port %d\n", rhport);
